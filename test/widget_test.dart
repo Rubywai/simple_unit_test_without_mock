@@ -13,30 +13,13 @@ import 'package:testing/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp());
-
-    //find drop_downs initial
-    expect(find.text('100'), findsOneWidget);
-    expect(find.text('3'),findsOneWidget);
-
-    //find dropdown button by key
-    expect(find.byKey(ValueKey('PriceDropDown')), findsOneWidget);
-    expect(find.byKey(ValueKey('CountDropdown')), findsOneWidget);
     
-    //tap price dropdown button
-    await tester.tap(find.byKey(ValueKey('PriceDropDown')));
-    expect(find.text('200'), findsOneWidget);
-    //tap item
-    await tester.tap(find.byKey(ValueKey(200)));
-    //tap value dropdown button
-    await tester.tap(find.byKey(ValueKey('CountDropdown')));
-    expect(find.text('3'), findsOneWidget);
-    await tester.tap(find.byKey(ValueKey(2)));
-    // //rebuild widgets
+    await tester.enterText(find.byKey(Key('countKey')), '20');
+    await tester.enterText(find.byKey(Key('priceKey')), '300');
+    await tester.tap(find.byType(RaisedButton));
     await tester.pump();
+    expect(find.text('4200'), findsOneWidget);
 
-   // expect(find.text('600'), findsOneWidget);
-    
-    //test result
 
 
 

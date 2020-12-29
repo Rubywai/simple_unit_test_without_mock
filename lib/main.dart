@@ -12,11 +12,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<int> _priceList = [100,200,300,400,500];
-  int _price = 100;
-  num _totalPrice = 0;
-  List<int> _countList = [3,5,7,9,10,15,18];
-  int _count = 3;
+
+  TextEditingController _priceController = TextEditingController();
+  TextEditingController _countController = TextEditingController();
+  double _total = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,66 +32,35 @@ class _MyAppState extends State<MyApp> {
                   textAlign: TextAlign.center,),
                 ),
               ),
-             Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                 Text('Choose Price'),
-                 SizedBox(width: 50,),
-                 DropdownButton<int>(
-                   key: ValueKey('PriceDropDown'),
-                   hint: Text('Choose Price'),
-                   value: _price,
-                   items: _priceList.map((price) {
-                     return DropdownMenuItem<int>(
-                       key: ValueKey(price),
-                       child: Text('$price'),
-                       value: price,
-                     );
-                   }
-                   ).toList(),
-                   onChanged: (value) {
-                     setState(() {
-                       _price = value;
-                     });
-                   },
-                 )
-               ],
-             ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Count'),
-                  SizedBox(width: 50,),
-                  DropdownButton<int>(
-                    key: ValueKey('CountDropdown'),
-                    hint: Text('Count'),
-                    value: _count,
-                    items: _countList.map((count) {
-                      return DropdownMenuItem<int>(
-                        key: ValueKey(count),
-                        child: Text('$count'),
-                        value: count,
-                      );
-                    }
-                    ).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _count = value;
-                      });
-                    },
-                  )
-                ],
+              TextField(
+                key: Key('countKey'),
+                controller: _countController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: 'Enter Count'
+                ),
               ),
-              MaterialButton(
+              TextField(
+                key : Key('priceKey'),
+                controller: _priceController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: 'Enter Price'
+                ),
+              ),
+              RaisedButton(
+                key: Key('btn'),
                 child: Text('Calculate'),
                 onPressed: (){
                   setState(() {
-                    num price = eachPrice(_count,_price);
-                    _totalPrice = totalPrice(_count, price);
+                     num _eachPrice = eachPrice(int.parse(_countController.text), int.parse(_priceController.text));
+                    _total = totalPrice(int.parse(_countController.text), _eachPrice);
+
                   });
                 },
               ),
-              Text('$_totalPrice'.trim())
+              Text('${_total.ceil()}')
+
 
             ],
           ),
