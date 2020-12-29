@@ -12,20 +12,34 @@ import 'package:testing/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    //find drop_downs initial
+    expect(find.text('100'), findsOneWidget);
+    expect(find.text('3'),findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.tap(find.byIcon(Icons.add));
+    //find dropdown button by key
+    expect(find.byKey(ValueKey('PriceDropDown')), findsOneWidget);
+    expect(find.byKey(ValueKey('CountDropdown')), findsOneWidget);
+    
+    //tap price dropdown button
+    await tester.tap(find.byKey(ValueKey('PriceDropDown')));
+    expect(find.text('200'), findsOneWidget);
+    //tap item
+    await tester.tap(find.byKey(ValueKey(200)));
+    //tap value dropdown button
+    await tester.tap(find.byKey(ValueKey('CountDropdown')));
+    expect(find.text('3'), findsOneWidget);
+    await tester.tap(find.byKey(ValueKey(2)));
+    // //rebuild widgets
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('2'), findsNothing);
-    expect(find.text('2'), findsOneWidget);
+   // expect(find.text('600'), findsOneWidget);
+    
+    //test result
+
+
+
+
   });
 }
